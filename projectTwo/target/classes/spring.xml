@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+    <!--
+    IOC自动扫描
+    component-scan自动扫描指定包路径下所有被Controller/@service/@Repository/@Component声明的类,并完成I0C实例化
+    @Controller声明controller类(控制器类)
+    @service 声明service类(业务类)
+    @Repository声明dao类(持久化类)
+    @component声明其他组件类
+    -->
+    <context:component-scan base-package="service.impl"/>
+
+    <context:component-scan base-package="dao.impl"/>
+
+    <!--1.引入jdbc配置文件-->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:jdbc.properties"/>
+    </bean>
+
+    <!--2.配置数据源-数据库连接池-->
+    <bean id="dbSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${driver}"/>
+        <property name="url" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+        <!--最大空闲连接数-->
+        <property name="maxIdle" value="${maxIdle}" />
+        <!--初始化连接数-->
+        <property name="initialSize" value="${initialSize}" />
+        <!--最大连接等待时间，连接超时时间单位: ms-->
+        <property name="maxWait" value="${maxWait}"></property>
+    </bean>
+
+    <!-- 3 spring和NgBatis整合，通过spring来管理MyBatisi的SqlSessionFactory会话工厂-->
+    <bean id="ssf" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--指定数据库连接池引用-->
+        <property name="dataSource" ref="dbSource"/>
+        <!--引入mybatis配置文件-->
+        <property name="configLocation" value="classpath:mybatis.xml"/>
+        <!--自动扫描mapping.xml文件-->
+        <!--<property name="mapperLocations" value="classpath:mapper/* .xml "'></property>-->
+    </bean>
+
+    <!--sqlSession模板对象，sqlSession可以实现数据库连接以及包含所有执行SQL操作的方法-->
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="ssf"/>
+    </bean>
+
+    <!--定义aop切面bean-->
+    <bean id="aopUtil" class="util.AopUtil"></bean>
+    <!--AOP配置-->
+    <aop:config>
+        <!--1 定义切面-->
+        <aop:aspect id="myAspect" ref="aopUtil">
+            <!--2 定义切入点
+            execution(* com.st.service.*.get* (..)
+            第一个*表示任意返回值类型等
+            第二个表示com.st.service包下任意类
+            第三个*表示该类的任意以get开头的方法
+            (..)表示任意个数的参数列表;
+            (*)代表只有一个参数，参数类型为任意类型;
+            (* , string)代表有两个参数，第一个参数可以为任何类型，第二个为 String类型的值
+            -->
+            <aop:pointcut id="myPointCut" expression="execution(* service.*.get*(..))"/>
+            <!--3 定义通知(通俗的讲，就是切入类的切入方式)
+            把通知切入到切入点的指定位置，称为【织入】
+            前置通知 before
+            后置通知after-returning
+            异常通知 after-throwing
+            最终通知 after
+            环绕通知 around
+            -->
+            <aop:after-throwing method="speakException" pointcut-ref="myPointCut" throwing="e"/>
+        </aop:aspect>
+    </aop:config>
+
+    <!-- 1.配置事务的管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!-- 指定要对哪个数据库进行事务操作 -->
+        <property name="dataSource" ref="dbSource"></property>
+    </bean>
+
+    <!-- 2.开启事务的注解 -->
+    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
+
+
+</beans>

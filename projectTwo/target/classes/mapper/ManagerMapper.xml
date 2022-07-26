@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.IManDao"><!--namespace属性关联dao层的接口-->
+
+    <!--登录查询-->
+    <select id="querylogin" parameterType="manager" resultType="manager">
+        select * from manager_info
+        where m_name = #{mName}
+        and m_pass = #{mPass}
+        and m_status = 1
+    </select>
+
+    <!--查询得到的数据的数量-->
+    <select id="queryCount" parameterType="manager" resultType="manager">
+        select * from manager_info
+        <where>
+            <if test="id != null"> id = #{id}</if>
+        </where>
+    </select>
+
+    <!--查询该页的数据-->
+    <select id="query" parameterType="java.util.Map" resultType="manager">
+        select * from manager_info
+        <where>
+            <if test="manager.id != null"> id = #{manager.id}</if>
+        </where>
+        <if test="limitFirst != null">
+            limit #{limitFirst},#{rowCount}
+        </if>
+    </select>
+
+    <insert id="add" parameterType="manager">
+        insert into manager_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="mName != null">m_name,</if>
+            <if test="mPass != null">m_pass,</if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="mName != null">#{mName},</if>
+            <if test="mPass != null">#{mPass},</if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="manager">
+        update manager_info
+        <set>
+            <if test="mStatus != null"> m_status = #{mStatus},</if>
+        </set>
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+        </where>
+    </update>
+
+</mapper>

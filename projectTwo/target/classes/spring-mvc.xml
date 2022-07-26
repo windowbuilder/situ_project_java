@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!--启用spring mvc 注解-->
+    <mvc:annotation-driven/>
+
+    <!--容器（tomcat）自动扫描控制器类，指定要扫描的包路径，并扫描所有被@controller注解声明的类
+    容器完成所有被扫描到的控制器类的实例化
+    -->
+    <context:component-scan base-package="controller"/>
+
+    <!--对静态资源的访问，交给default servlet handler处理，不加这个配置转发页面报404-->
+    <mvc:default-servlet-handler/>
+
+    <!--视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--前缀-->
+        <property name="prefix" value="/page/"/>
+        <!--后缀-->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- 配置拦截器 -->
+    <mvc:interceptors>
+        <!-- 配置一个全局拦截器，拦截所有请求 -->
+        <!-- <bean class="interceptor.UserInterceptor" /> -->
+        <mvc:interceptor>
+            <!-- 配置拦截器作用的路径 -->
+            <!-- /* 只能拦截一层的请求 /**可以拦截多层的请求-->
+            <mvc:mapping path="/demo/*" />
+            <bean class="interceptor.MyInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+</beans>

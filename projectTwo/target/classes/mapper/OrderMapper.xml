@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.IOrdDao"><!--namespace属性关联dao层的接口-->
+
+    <!--查询得到的数据的数量-->
+    <select id="queryCO" parameterType="order" resultType="order">
+        select * from v_order
+        <where>
+            <if test="orderNo != null and orderNo != '' "> and order_no = #{orderNo}</if>
+            <if test="orderStatus != null"> and order_status = #{orderStatus}</if>
+        </where>
+    </select>
+
+    <!--查询商品详情-->
+    <select id="queryCD" parameterType="detail" resultType="detail">
+        select * from order_goods
+        <where>
+            <if test="orderNo != null and orderNo != '' "> and order_no = #{orderNo}</if>
+        </where>
+    </select>
+
+    <!--查询该页的数据-->
+    <select id="queryO" parameterType="java.util.Map" resultType="order">
+        select * from v_order
+        <where>
+            <if test="order.orderNo != null and order.orderNo != '' "> and order_no = #{order.orderNo}</if>
+            <if test="order.orderStatus != null"> and order_status = #{order.orderStatus}</if>
+        </where>
+        <if test="limitFirst != null">
+            limit #{limitFirst},#{rowCount}
+        </if>
+    </select>
+
+    <insert id="addO" parameterType="order">
+        insert into v_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null and orderNo != '' "> order_no,</if>
+            <if test="orderStatus != null"> order_status,</if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null and orderNo != '' "> #{orderNo},</if>
+            <if test="orderStatus != null"> #{orderStatus},</if>
+        </trim>
+    </insert>
+
+    <update id="updateO" parameterType="order">
+        update v_order
+        <set>
+            <if test="orderStatus != null"> order_status = #{orderStatus}</if>
+        </set>
+        <where>
+            <if test="orderNo != null and orderNo != '' ">
+                and order_no = #{orderNo}
+            </if>
+        </where>
+    </update>
+
+</mapper>

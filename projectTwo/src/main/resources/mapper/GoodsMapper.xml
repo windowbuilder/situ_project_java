@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.IGooDao"><!--namespace属性关联dao层的接口-->
+
+    <!--查询得到的数据的数量-->
+    <select id="queryCountG" parameterType="goods" resultType="goods">
+        select * from v_goods
+        <where>
+            <if test="gName != null and gName != '' "> and g_name = #{gName}</if>
+            <if test="soName != null and soName != '' "> and so_name = #{soName}</if>
+            <if test="sName != null and sName != '' "> and s_name = #{sName}</if>
+            <if test="gStatus != null"> and g_status = #{gStatus}</if>
+        </where>
+    </select>
+
+    <!--查询所有分类-->
+    <select id="queryClassG" parameterType="goodsSort" resultType="goodsSort">
+        select * from goods_sort
+        <where>
+            <if test="parentId != null"> parent_id = #{parentId}</if>
+            <if test="sName != null and sName != '' "> s_name = #{sName}</if>
+        </where>
+    </select>
+
+    <!--查询该页的数据-->
+    <select id="queryG" parameterType="java.util.Map" resultType="goods">
+        select * from v_goods
+        <where>
+            <if test="goods.gName != null and goods.gName != '' "> and g_name = #{goods.gName}</if>
+            <if test="goods.soName != null and goods.soName != '' "> and so_name = #{goods.soName}</if>
+            <if test="goods.sName != null and goods.sName != '' "> and s_name = #{goods.sName}</if>
+            <if test="goods.gStatus != null"> and g_status = #{goods.gStatus}</if>
+            <if test="id != null"> and id = #{id}</if>
+        </where>
+        <if test="limitFirst != null">
+            limit #{limitFirst},#{rowCount}
+        </if>
+    </select>
+
+    <insert id="addG" parameterType="goods">
+        insert into goods_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="gName != null and gName != '' "> g_name,</if>
+            <if test="imgUrl != null and imgUrl != '' "> img_url,</if>
+            <if test="gPrice != null"> g_price,</if>
+            <if test="gCount != null"> g_count,</if>
+            <if test="sName != null"> s_id,</if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="gName != null and gName != '' "> #{gName},</if>
+            <if test="imgUrl != null and imgUrl != '' "> #{imgUrl},</if>
+            <if test="gPrice != null"> #{gPrice},</if>
+            <if test="gCount != null"> #{gCount},</if>
+            <if test="sName != null"> #{sName},</if>
+        </trim>
+    </insert>
+
+    <update id="updateG" parameterType="goods">
+        update goods_info
+        <set>
+            <if test="imgUrl != null and imgUrl != '' "> img_url = #{imgUrl},</if>
+            <if test="gPrice != null"> g_price = #{gPrice},</if>
+            <if test="gCount != null"> g_count = #{gCount},</if>
+            <if test="gStatus != null"> g_status = #{gStatus},</if>
+        </set>
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+        </where>
+    </update>
+
+</mapper>
