@@ -45,7 +45,7 @@ public class ManService implements IManService {
         int rowCount = 10;
         int totalCount = manDao.queryCount(manager);
         int totalPage = totalCount / rowCount;
-        if (totalCount % rowCount != 0){
+        if (totalCount % rowCount != 0 || totalPage < 1){
             totalPage ++;
         }
         if (pageNo > totalPage){

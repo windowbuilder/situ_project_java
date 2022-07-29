@@ -29,7 +29,13 @@ public interface IGooService {
 
     public int addG(Goods goods);
 
+    public int addp(GoodsSort goodsSort);
+
     public int updateG(Goods goods);
 
+    public int upsn(GoodsSort goodsSort);
+
     public int updown(String[] arr,Goods goods);
+
+    public int delg(Integer id);
 }

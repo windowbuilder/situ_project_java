@@ -31,10 +31,10 @@ public class GooService implements IGooService {
         if (pageNo == null || pageNo < 1){
             pageNo = 1;
         }
-        int rowCount = 10;
+        int rowCount = 4;
         int totalCount = gooDao.queryCountG(goods);
         int totalPage = totalCount / rowCount;
-        if (totalCount % rowCount != 0){
+        if (totalCount % rowCount != 0 || totalPage < 1){
             totalPage ++;
         }
         if (pageNo > totalPage){
@@ -72,9 +72,21 @@ public class GooService implements IGooService {
     }
 
     @Override
+    public int addp(GoodsSort goodsSort) {
+        int addp = gooDao.addp(goodsSort);
+        return addp;
+    }
+
+    @Override
     public int updateG(Goods goods) {
         int updateG = gooDao.updateG(goods);
         return updateG;
+    }
+
+    @Override
+    public int upsn(GoodsSort goodsSort) {
+        int upsn = gooDao.upsn(goodsSort);
+        return upsn;
     }
 
     //上架，下架
@@ -96,5 +108,11 @@ public class GooService implements IGooService {
         }else {
             return -1;
         }
+    }
+
+    @Override
+    public int delg(Integer id) {
+        int delg = gooDao.delg(id);
+        return delg;
     }
 }

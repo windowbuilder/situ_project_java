@@ -29,5 +29,11 @@ public interface IGooDao {
 
     public int addG(Goods goods);
 
+    public int addp(GoodsSort goodsSort);
+
     public int updateG(Goods goods);
+
+    public int upsn(GoodsSort goodsSort);
+
+    public int delg(Integer id);
 }

@@ -8,6 +8,7 @@
 <%@page isELIgnored="false" %>
 <%@page language="java" contentType="text/html; utf-8" pageEncoding="utf-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +42,7 @@
     </div>
     <form class="layui-form">
         <div class="layui-form-item">
-            <div class="layui-input-inline" style="width: 250px;">
+            <div class="layui-input-inline" style="width: 290px;">
                 <span>订单号：${list1.get(0).orderNo}</span>
             </div>
             <div class="layui-input-inline">
@@ -52,7 +53,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <div class="layui-input-inline" style="width: 250px;">
+            <div class="layui-input-inline" style="width: 290px;">
                 <span>交易金额：${list1.get(0).orderMoney}</span>
             </div>
             <div class="layui-input-inline">
@@ -67,7 +68,7 @@
                 </span>
             </div>
             <div class="layui-input-inline" style="width: 290px;">
-                <span>交易时间：${list1.get(0).createTime}</span>
+                <span>交易时间：<f:formatDate value="${list1.get(0).createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></span>
             </div>
         </div>
     </form>

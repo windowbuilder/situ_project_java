@@ -8,6 +8,7 @@
 <%@page isELIgnored="false" %>
 <%@page language="java" contentType="text/html; utf-8" pageEncoding="utf-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,8 +85,8 @@
                 <td>${ord.uId}</td>
                 <td>${ord.uName}</td>
                 <td>${ord.orderMoney}</td>
-                <td>${ord.createTime}</td>
-                <td><a href="look?orderNo"+${ord.orderNo}>查看</a></td>
+                <td><f:formatDate value="${ord.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                <td><a href="look?orderNo=${ord.orderNo}">查看</a></td>
             </tr>
         </c:forEach>
         </tbody>

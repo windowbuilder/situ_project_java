@@ -46,7 +46,22 @@ public class GooDao implements IGooDao {
     }
 
     @Override
+    public int addp(GoodsSort goodsSort) {
+        return sqlSession.insert(URL + ".addp",goodsSort);
+    }
+
+    @Override
     public int updateG(Goods goods) {
         return sqlSession.update(URL + ".updateG",goods);
+    }
+
+    @Override
+    public int upsn(GoodsSort goodsSort) {
+        return sqlSession.update(URL + ".upsn",goodsSort);
+    }
+
+    @Override
+    public int delg(Integer id) {
+        return sqlSession.delete(URL + ".delg",id);
     }
 }

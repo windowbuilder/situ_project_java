@@ -32,7 +32,7 @@
     </select>
 
     <insert id="addO" parameterType="order">
-        insert into v_order
+        insert into order_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="orderNo != null and orderNo != '' "> order_no,</if>
             <if test="orderStatus != null"> order_status,</if>
@@ -44,7 +44,7 @@
     </insert>
 
     <update id="updateO" parameterType="order">
-        update v_order
+        update order_info
         <set>
             <if test="orderStatus != null"> order_status = #{orderStatus}</if>
         </set>

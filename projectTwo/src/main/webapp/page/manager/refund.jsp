@@ -8,6 +8,7 @@
 <%@page isELIgnored="false" %>
 <%@page language="java" contentType="text/html; utf-8" pageEncoding="utf-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +33,7 @@
         <span style="font-size: 25px;font-weight: bold; margin-left: -110px;">列表</span>
     </div>
     <div class="layui-input-inline">
-        <button class="layui-btn submit">一键退款</button>
+        <button class="layui-btn" onclick="refu()">一键退款</button>
     </div>
     <table class="layui-table" id="tab1" title="上架商品表单">
         <thead>
@@ -55,7 +56,7 @@
                 <td>${ord.uId}</td>
                 <td>${ord.uName}</td>
                 <td>${ord.orderMoney}</td>
-                <td>${ord.createTime}</td>
+                <td><f:formatDate value="${ord.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                 <td>
                     <c:if test="${ord.orderStatus == 1}">待付款</c:if>
                     <c:if test="${ord.orderStatus == 2}">待发货</c:if>
@@ -65,7 +66,7 @@
                     <c:if test="${ord.orderStatus == 6}">已退款</c:if>
                     <c:if test="${ord.orderStatus == 7}">交易结束</c:if>
                 </td>
-                <td>${ord.deleteTime}</td>
+                <td><f:formatDate value="${ord.deleteTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
             </tr>
         </c:forEach>
         </tbody>
@@ -82,8 +83,7 @@
 <script>
     //分页
     function queryByPage(pageNo){
-        var orderNo = "${list1.get(0).orderNo}";
-        window.location.href = "look?pageNo="+pageNo+"&orderNo="+orderNo;
+        window.location.href = "ref?pageNo="+pageNo;
     }
 
     //全选，取消全选
@@ -98,7 +98,7 @@
     }
 
     //退款
-    function set(){
+    function refu(){
         var arr = [];	//声明一个数组用来存放遍历出来的checkbox value值
         $("input[name='orderNo']:checked").each(function(i){	//遍历
             arr.push($(this).val());	//将我们遍历出来的值push到数组中
@@ -106,17 +106,17 @@
         })
         var params = "arr=" + arr;
         $.ajax({
-            url:"set",//指定请求跳转的路径
+            url:"refu",//指定请求跳转的路径
             data:params,//请求提交的数据
             type:"POST",//请求提交的方式
             success:function(str){
                 if (str == "0"){
-                    alert("发货失败");
+                    alert("退款失败");
                 }else if (str == "-1"){
                     alert("您没有框选订单，请先框选订单");
                 }else {
-                    alert("发货成功");
-                    window.location.href="quo"
+                    alert("退款成功");
+                    window.location.href="ref"
                 }
             }
         });

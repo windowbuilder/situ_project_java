@@ -28,6 +28,9 @@ public class OrdService implements IOrdService {
 
     @Override
     public List<Detail> queryCD(Detail detail) {
+        if (detail.getOrderNo() == null || detail.getOrderNo().equals("")){
+            return null;
+        }
         List<Detail> list = ordDao.queryCD(detail);
         return list;
     }
@@ -40,7 +43,7 @@ public class OrdService implements IOrdService {
         int rowCount = 10;
         int totalCount = ordDao.queryCO(order);
         int totalPage = totalCount / rowCount;
-        if (totalCount % rowCount != 0){
+        if (totalCount % rowCount != 0 || totalPage < 1){
             totalPage ++;
         }
         if (pageNo > totalPage){

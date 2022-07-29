@@ -33,40 +33,40 @@
                     <li class="layui-nav-item layui-nav-itemed">
                         <a class="" href="javascript:;"><i class="layui-icon">&#xe66f;</i> &nbsp;管理员</a>
                         <dl class="layui-nav-child">
-                            <dd><a href="que" target="t1">管理员列表</a></dd>
+                            <dd><a href="${pageContext.request.contextPath}/man/que" target="t1">管理员列表</a></dd>
                         </dl>
                     </li>
                 </c:if>
                 <li class="layui-nav-item">
                     <a class="" href="javascript:;"><i class="layui-icon">&#xe66e;</i> &nbsp;分类管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="../page/shop_num.html" target="t1">商品分类</a></dd>
+                        <dd><a href="${pageContext.request.contextPath}/goo/num" target="t1">商品分类</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
                     <a class="" href="javascript:;"><i class="layui-icon">&#xe657;</i> &nbsp;商品管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="queg" target="t1">商品列表</a></dd>
-                        <dd><a href="addsh" target="t1">新增商品</a></dd>
-                        <dd><a href="qud" target="t1">下架商品</a></dd>
+                        <dd><a href="${pageContext.request.contextPath}/goo/queg" target="t1">商品列表</a></dd>
+                        <dd><a href="${pageContext.request.contextPath}/goo/addsh" target="t1">新增商品</a></dd>
+                        <dd><a href="${pageContext.request.contextPath}/goo/qud" target="t1">下架商品</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
                     <a class="" href="javascript:;"><i class="layui-icon">&#xe63c;</i> &nbsp;订单管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="quo" target="t1">订单列表</a></dd>
-                        <dd><a href="../page/refund.html" target="t1">退款</a></dd>
+                        <dd><a href="${pageContext.request.contextPath}/ord/quo" target="t1">订单列表</a></dd>
+                        <dd><a href="${pageContext.request.contextPath}/ord/ref" target="t1">退款</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a class="" href="quitPage"><i class="layui-icon">&#xe682;</i> &nbsp;退出登录</a>
+                    <a class="" href="${pageContext.request.contextPath}/man/quitPage"><i class="layui-icon">&#xe682;</i> &nbsp;退出登录</a>
                 </li>
             </ul>
         </div>
     </div>
     <div class="layui-body" style="background-color: lavender;">
         <div style="font-size:0;">
-            <iframe name="t1" frameBorder="0" style="width: 100%;height: 834px;" src="queg" scrolling="no" id="myiframe">
+            <iframe name="t1" frameBorder="0" style="width: 100%;height: 834px;" src="${pageContext.request.contextPath}/goo/queg" scrolling="no" id="myiframe">
 
             </iframe>
         </div>

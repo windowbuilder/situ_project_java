@@ -7,8 +7,8 @@
         select * from v_goods
         <where>
             <if test="gName != null and gName != '' "> and g_name = #{gName}</if>
-            <if test="soName != null and soName != '' "> and so_name = #{soName}</if>
-            <if test="sName != null and sName != '' "> and s_name = #{sName}</if>
+            <if test="soName != null and soName != '' "> and so_id = #{soName}</if>
+            <if test="sName != null and sName != '' "> and s_id = #{sName}</if>
             <if test="gStatus != null"> and g_status = #{gStatus}</if>
         </where>
     </select>
@@ -19,6 +19,7 @@
         <where>
             <if test="parentId != null"> parent_id = #{parentId}</if>
             <if test="sName != null and sName != '' "> s_name = #{sName}</if>
+            <if test="id != null"> id = #{id}</if>
         </where>
     </select>
 
@@ -27,8 +28,8 @@
         select * from v_goods
         <where>
             <if test="goods.gName != null and goods.gName != '' "> and g_name = #{goods.gName}</if>
-            <if test="goods.soName != null and goods.soName != '' "> and so_name = #{goods.soName}</if>
-            <if test="goods.sName != null and goods.sName != '' "> and s_name = #{goods.sName}</if>
+            <if test="goods.soName != null and goods.soName != '' "> and so_id = #{goods.soName}</if>
+            <if test="goods.sName != null and goods.sName != '' "> and s_id = #{goods.sName}</if>
             <if test="goods.gStatus != null"> and g_status = #{goods.gStatus}</if>
             <if test="id != null"> and id = #{id}</if>
         </where>
@@ -55,6 +56,18 @@
         </trim>
     </insert>
 
+    <insert id="addp" parameterType="goodsSort">
+        insert into goods_sort
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null"> parent_id,</if>
+            <if test="sName != null and sName != '' "> s_name,</if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null"> #{parentId},</if>
+            <if test="sName != null and sName != '' "> #{sName},</if>
+        </trim>
+    </insert>
+
     <update id="updateG" parameterType="goods">
         update goods_info
         <set>
@@ -70,4 +83,19 @@
         </where>
     </update>
 
+    <update id="upsn" parameterType="goodsSort">
+        update goods_sort
+        <set>
+            <if test="sName != null and sName != '' "> s_name = #{sName},</if>
+        </set>
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+        </where>
+    </update>
+
+    <delete id="delg" parameterType="java.lang.Integer">
+        delete from goods_sort where id = #{id} or parent_id = #{id};
+    </delete>
 </mapper>

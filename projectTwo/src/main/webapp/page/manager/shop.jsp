@@ -22,6 +22,10 @@
         .layui-table th{
             text-align: center;
         }
+        img{
+            width: 100px;
+            height: 100px;
+        }
     </style>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min-2.1.1.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/layui/layui.js"></script>
@@ -38,16 +42,16 @@
                        autocomplete="off" class="layui-input">
             </div>
             <div class="layui-input-inline">
-                <select name="soName" lay-filter="f1">
+                <select name="soName" lay-filter="f1" class="soName">
                     <option value="">一级分类</option>
                     <c:forEach items="${list}" var="gs">
-                        <option <c:if test="${soName == gs.sName}">selected=true</c:if>
-                                value="${gs.sName}">${gs.sName}</option>
+                        <option <c:if test="${soName == gs.id}">selected=true</c:if>
+                                value="${gs.id}">${gs.sName}</option>
                     </c:forEach>
                 </select>
             </div>
             <div class="layui-input-inline">
-                <select name="sName" id="sName">
+                <select name="sName" id="sName" lay-filter="f2">
                     <option value="">二级分类</option>
                 </select>
             </div>
@@ -68,6 +72,7 @@
         <tr>
             <th><input type="checkbox" onclick="getAll(this)" value="0"/></th>
             <th>商品名称</th>
+            <th>图片</th>
             <th>库存</th>
             <th>单价</th>
             <th>所属分类</th>
@@ -79,6 +84,7 @@
             <tr>
                 <td><input type="checkbox" id="name" name="id" value="${goo.id}"></td>
                 <td>${goo.gName}</td>
+                <td><img src="${goo.imgUrl}"></td>
                 <td>${goo.gCount}</td>
                 <td>${goo.gPrice}</td>
                 <td>${goo.sName}</td>
@@ -140,15 +146,44 @@
         });
     }
 
+    var soName = $(".soName option:selected").val();
+    var form = layui.form;
+    var sNam ;
+    form.on('select(f2)',function(data){
+        form.render('select');
+        sNam = data.value;
+    });
+    console.info(soName)
+    console.info(sNam);
+    if (soName != '' && soName != null){
+        var params = "id=" + soName + "&soName=" + sNam;
+        $.ajax({
+            url:"two",//指定请求跳转的路径
+            data:params,//请求提交的数据
+            type:"POST",//请求提交的方式
+            success:function(str){
+                //请求发送成功回调函数
+                var arr = JSON.parse(str);
+                console.info(arr);
+                $("#sName").empty().append("<option value=''>二级分类</option>");
+                $.each(arr,function(index,item){
+                    if (item.id == item.soName){
+                        $("#sName").append("<option value='"+item.id+"' selected='true'>"+item.sName+"</option>");
+                    }else {
+                        $("#sName").append("<option value='"+item.id+"'>"+item.sName+"</option>");
+                    }
+                });
+                form.render('select');
+            }
+        });
+    }
+
     //二级联动
     layui.use(['layer','form'], function() {
         var layer = layui.layer;
         var form = layui.form;
         form.on('select(f1)',function(data){
-            console.info(data.elem);
-            console.info(data.value);
-
-            var params = "sName=" + data.value;
+            var params = "id=" + data.value;
             $.ajax({
                 url:"two",//指定请求跳转的路径
                 data:params,//请求提交的数据
@@ -156,10 +191,9 @@
                 success:function(str){
                     //请求发送成功回调函数
                     var arr = JSON.parse(str);
-                    $("#sName").empty();
+                    $("#sName").empty().append("<option value=''>二级分类</option>");
                     $.each(arr,function(index,item){
-                        console.info(item);
-                        $("#sName").append("<option value='"+item.sName+"'>"+item.sName+"</option>");
+                        $("#sName").append("<option value='"+item.id+"'>"+item.sName+"</option>");
                     });
                     form.render('select');
                 }
@@ -171,7 +205,7 @@
     function update(id){
         layer.open({
             type:2,
-            title:"更新管理员",
+            title:"商品更新界面",
             content:"updPage?id="+id,
             area: ['520px', '250px']
         });
