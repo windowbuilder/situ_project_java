@@ -86,7 +86,7 @@
                 success:function(str){
                     //请求发送成功回调函数
                     var arr = JSON.parse(str);
-                    $("#sName").empty().append("<option value=''>二级分类</option>");
+                    $("#sName").empty();
                     $.each(arr,function(index,item){
                         $("#sName").append("<option value='"+item.id+"'>"+item.sName+"</option>");
                     });

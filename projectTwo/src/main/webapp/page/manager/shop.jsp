@@ -30,7 +30,7 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min-2.1.1.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/layui/layui.js"></script>
 </head>
-<body>
+<body onload="lo()">
 <div style="width: 97%; margin: 20px auto;">
     <div class="layui-input-block">
         <span style="font-size: 25px;font-weight: bold; margin-left: -110px;">查询</span>
@@ -146,36 +146,33 @@
         });
     }
 
-    var soName = $(".soName option:selected").val();
-    var form = layui.form;
-    var sNam ;
-    form.on('select(f2)',function(data){
-        form.render('select');
-        sNam = data.value;
-    });
-    console.info(soName)
-    console.info(sNam);
-    if (soName != '' && soName != null){
-        var params = "id=" + soName + "&soName=" + sNam;
-        $.ajax({
-            url:"two",//指定请求跳转的路径
-            data:params,//请求提交的数据
-            type:"POST",//请求提交的方式
-            success:function(str){
-                //请求发送成功回调函数
-                var arr = JSON.parse(str);
-                console.info(arr);
-                $("#sName").empty().append("<option value=''>二级分类</option>");
-                $.each(arr,function(index,item){
-                    if (item.id == item.soName){
-                        $("#sName").append("<option value='"+item.id+"' selected='true'>"+item.sName+"</option>");
-                    }else {
-                        $("#sName").append("<option value='"+item.id+"'>"+item.sName+"</option>");
-                    }
-                });
-                form.render('select');
-            }
-        });
+    //初始化二级列表
+    function lo(){
+        var $ = layui.jquery;
+        var form = layui.form;
+        var soName = "${soName}";
+        var sNam = "${sName}";
+        if (soName != null && soName != ''){
+            var params = "id=" + soName + "&soName=" + sNam;
+            $.ajax({
+                url:"two",//指定请求跳转的路径
+                data:params,//请求提交的数据
+                type:"POST",//请求提交的方式
+                success:function(str){
+                    //请求发送成功回调函数
+                    var arr = JSON.parse(str);
+                    $("#sName").empty();
+                    $.each(arr,function(index,item){
+                        if (item.id == item.soName){
+                            $("#sName").append("<option value='"+item.id+"' selected='true'>"+item.sName+"</option>");
+                        }else {
+                            $("#sName").append("<option value='"+item.id+"'>"+item.sName+"</option>");
+                        }
+                    });
+                    form.render('select');
+                }
+            });
+        }
     }
 
     //二级联动
@@ -191,7 +188,7 @@
                 success:function(str){
                     //请求发送成功回调函数
                     var arr = JSON.parse(str);
-                    $("#sName").empty().append("<option value=''>二级分类</option>");
+                    $("#sName").empty();
                     $.each(arr,function(index,item){
                         $("#sName").append("<option value='"+item.id+"'>"+item.sName+"</option>");
                     });

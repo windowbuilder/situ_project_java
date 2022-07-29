@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/login.css" />
     <style>
         #img{
+            CURSOR: pointer;
             width: 25px;
             height: 15px;
             position: absolute;
@@ -46,16 +47,13 @@
             <div class="layui-input-block">
                 <input type="password" id="mPass" name="mPass" placeholder="请输入密码" autocomplete="off" class="layui-input" />
             </div>
-            <%--<img id="img" οnclick="change()" src="${pageContext.request.contextPath}/img/openeye.png">--%>
+            <img id="img" src="${pageContext.request.contextPath}/img/openeye.png">
         </div>
     </form>
     <div class="b3">
         <div class="layui-input-block">
             <button class="layui-btn" onclick="login()">登陆</button>
         </div>
-        <div style="height: 20px;"></div>
-        <a href="../page/forget.html" class="font-set" style="float: left;margin-left: 50px;">忘记密码?</a>
-        <a href="../page/regist.html" class="font-set" style="float: right;">立即注册</a>
     </div>
 </div>
 </body>
@@ -92,16 +90,18 @@
     }
 
     //睁眼、闭眼
-    function change() {
-        var $ = layui.jquery;
-        if ($("#mPass").type === "password") {
-            $("#mPass").type = "text";
-            $("#img").src = "${pageContext.request.contextPath}/img/closeeye.png"; //图片路径（闭眼图片）
-        } else {
-            $("#mPass").type = "password";
-            $("#img").src = "${pageContext.request.contextPath}/img/openeye.png"; // 图片路径（睁眼图片）
-        }
-    }
+    $(document).ready(function(){
+        $("#img").click(function(){
+            var $ = layui.$;
+            if ($("#mPass").attr("type") == "password") {
+                $("#mPass").attr("type","text");
+                $("#img").attr("src","${pageContext.request.contextPath}/img/closeeye.png");
+            } else {
+                $("#mPass").attr("type","password");
+                $("#img").attr("src","${pageContext.request.contextPath}/img/openeye.png");
+            }
+        });
+    });
 </script>
 </html>
 
