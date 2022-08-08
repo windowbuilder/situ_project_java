@@ -38,7 +38,7 @@
                     <div style="float: left;">
                         <img src="${car.imgUrl}" style="width: 200px;height: 120px;"/>
                     </div>
-                    <div style="float: left;margin-left: 15px;">
+                    <div style="float: left;margin-left: 15px;width: 420px">
                         <div>
                             <span style="font-size: 25px;font-weight: 600;">${car.gName}</span>
                         </div>
@@ -49,8 +49,8 @@
                         </div>
                     </div>
                     <div class="hid layui-btn-group">
-                        <button class="layui-btn layui-btn-lg">购买</button>
-                        <button class="layui-btn layui-btn-lg">删除</button>
+                        <button class="layui-btn layui-btn-lg" onclick="buy('${car.id}','${car.buyCount}')">购买</button>
+                        <button class="layui-btn layui-btn-lg" onclick="dalete('${car.id}')">删除</button>
                     </div>
                 </div>
             </div>
@@ -58,4 +58,47 @@
     </div>
 </div>
 </body>
+<script>
+    //购买按钮
+    function buy(id,buyCount){
+        var params = "id="+id+"&buyCount="+buyCount;
+        //提交登录信息
+        $.ajax({
+            url: "${pageContext.request.contextPath}/shop/order/gbu",
+            data: params,
+            type: "post",
+            success:function(str){
+                if(str != "0"){
+                    layer.open({
+                        type:2,
+                        title:"支付",
+                        content:"${pageContext.request.contextPath}ord/geo?orderNo="+str,
+                        area: ['455px', '250px']
+                    })
+                } else {
+                    alert("加入订单失败")
+                }
+            }
+        });
+    }
+
+    //删除按钮
+    function dalete(id){
+        var params = "id="+id;
+        //提交登录信息
+        $.ajax({
+            url: "${pageContext.request.contextPath}/shop/order/dec",
+            data: params,
+            type: "post",
+            success:function(str){
+                if(str != "0"){
+                    alert("删除成功");
+                    window.location.reload();
+                } else {
+                    alert("删除失败");
+                }
+            }
+        });
+    }
+</script>
 </html>

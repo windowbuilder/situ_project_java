@@ -16,6 +16,10 @@ import java.util.Map;
 public interface IShoGooService {
     public Map<String,Object> addCar(Integer uid,Integer gid,Integer buyCount);
 
+    public Map<String,Object> buyDeleteCar(Integer id,Integer gid,Integer buyCount);
+
+    public int deleteCar(Integer id);
+
     public Map<String,Object> createOrd(Integer uid,Integer gid,Integer buyCount);
 
     public Map<String, Object> ordIng(String orderNo,String uPass);

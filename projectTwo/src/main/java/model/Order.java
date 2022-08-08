@@ -19,11 +19,12 @@ public class Order {
     private Timestamp createTime;
     private Integer orderStatus;//订单状态 1-待付款 2-待发货 3-已发货 4-已签收 5-退款中 6-已退款 7-交易结束
     private Timestamp deleteTime;
+    private Integer preStatus;
 
     public Order() {
     }
 
-    public Order(String orderNo, Integer uId, String uName, BigDecimal orderMoney, Timestamp createTime, Integer orderStatus, Timestamp deleteTime) {
+    public Order(String orderNo, Integer uId, String uName, BigDecimal orderMoney, Timestamp createTime, Integer orderStatus, Timestamp deleteTime,Integer preStatus) {
         this.orderNo = orderNo;
         this.uId = uId;
         this.uName = uName;
@@ -31,6 +32,7 @@ public class Order {
         this.createTime = createTime;
         this.orderStatus = orderStatus;
         this.deleteTime = deleteTime;
+        this.preStatus = preStatus;
     }
 
     /**
@@ -145,7 +147,25 @@ public class Order {
         this.deleteTime = deleteTime;
     }
 
+    public Integer getPreStatus() {
+        return preStatus;
+    }
+
+    public void setPreStatus(Integer preStatus) {
+        this.preStatus = preStatus;
+    }
+
+    @Override
     public String toString() {
-        return "Order{orderNo = " + orderNo + ", uId = " + uId + ", uName = " + uName + ", orderMoney = " + orderMoney + ", createTime = " + createTime + ", orderStatus = " + orderStatus + ", deleteTime = " + deleteTime + "}";
+        return "Order{" +
+                "orderNo='" + orderNo + '\'' +
+                ", uId=" + uId +
+                ", uName='" + uName + '\'' +
+                ", orderMoney=" + orderMoney +
+                ", createTime=" + createTime +
+                ", orderStatus=" + orderStatus +
+                ", deleteTime=" + deleteTime +
+                ", preStatus=" + preStatus +
+                '}';
     }
 }

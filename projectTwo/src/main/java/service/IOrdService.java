@@ -26,7 +26,7 @@ public interface IOrdService {
 
     public List<Detail> queryACD(Detail detail);
 
-    public List<Order> queryIO(Integer uId);
+    public List<Order> queryIO(Integer uId,Integer orderStatus);
 
     public Map<String,Object> queryO(Order order, Integer pageNo);
 

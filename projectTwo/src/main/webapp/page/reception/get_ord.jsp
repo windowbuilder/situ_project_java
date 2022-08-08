@@ -13,16 +13,35 @@
     <meta charset="utf-8">
     <title>支付界面</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/layui/css/layui.css"/>
+    <style>
+        .b1 {
+            margin-left: -85px;
+            border-radius: 5px;
+            width: 400px;
+            height: 40px;
+            font-size: 15px;
+        }
+        .d1{
+            width: 400px;
+            height: 40px;
+            margin-left: 25px;
+            margin-top: 15px;
+            margin-bottom: 30px;
+        }
+    </style>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min-2.1.1.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/layui/layui.js"></script>
 </head>
 <body>
 <div>
+    <form class="layui-form" action="">
+        <div class="layui-form-item d1">
+            <input type="text" id="uPass" required lay-verify="required" placeholder="请输入支付密码"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </form>
     <div class="layui-input-block">
-        <input type="text" class="layui-input" placeholder="请输入支付密码" id="uPass">
-    </div>
-    <div class="layui-input-block">
-        <button class="layui-btn" onclick="ord(${orderNo})">支付</button>
+        <button class="layui-btn b1" onclick="ord('${orderNo}')">支付</button>
     </div>
 </div>
 </body>
@@ -30,6 +49,7 @@
     function ord(orderNo){
         var uPass = $("#uPass").val();
         var params = "orderNo="+orderNo+"&uPass="+uPass;
+        console.info(params);
         $.ajax({
             url:"${pageContext.request.contextPath}/shop/order/odin",//指定请求跳转的路径
             data:params,//请求提交的数据
@@ -49,7 +69,7 @@
     function closeLayer() {
         var index = parent.layer.getFrameIndex(window.name);
         parent.layer.close(index);
-        window.parent.location.reload();
+        window.location.reload();
     }
 </script>
 </html>

@@ -16,6 +16,7 @@
     <select id="queryIC" parameterType="java.util.Map" resultType="car">
         select * from v_car
         <where>
+            <if test="car.id != null"> and id = #{car.id}</if>
             <if test="car.uId != null"> and u_id = #{car.uId}</if>
             <if test="car.gId != null"> and g_id = #{car.gId}</if>
             <if test="car.cStatus != null"> and c_status = #{car.cStatus}</if>
@@ -54,4 +55,7 @@
         </where>
     </update>
 
+    <delete id="deleteI" parameterType="car">
+        delete from cart_info where id = #{id};
+    </delete>
 </mapper>

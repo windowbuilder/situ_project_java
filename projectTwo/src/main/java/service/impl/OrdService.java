@@ -42,10 +42,11 @@ public class OrdService implements IOrdService {
     }
 
     @Override
-    public List<Order> queryIO(Integer uId) {
+    public List<Order> queryIO(Integer uId,Integer orderStatus) {
         Map<String, Object> map = new HashMap<>();
         Order order = new Order();
         order.setUId(uId);
+        order.setOrderStatus(orderStatus);
         map.put("order",order);
         List<Order> list = ordDao.queryO(map);
         return list;

@@ -66,7 +66,8 @@
     <update id="updateO" parameterType="order">
         update order_info
         <set>
-            <if test="orderStatus != null"> order_status = #{orderStatus}</if>
+            <if test="orderStatus != null"> order_status = #{orderStatus},</if>
+            <if test="orderStatus != null and orderStatus == 5"> pre_status = order_status,</if>
         </set>
         <where>
             <if test="orderNo != null and orderNo != '' ">

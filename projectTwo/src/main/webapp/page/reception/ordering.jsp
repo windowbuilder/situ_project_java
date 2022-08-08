@@ -31,7 +31,7 @@
 </head>
 <body>
 <div style="overflow: hidden;background-color: lavender;">
-    <div style="width: 100%;height: 787px;margin: 0;margin-top: 40px;">
+    <div style="width: 100%;height: 784px;margin: 0;margin-top: 40px;">
         <c:forEach items="${list}" var="ord">
             <div style="padding-left: 30px;">
                 <div>
@@ -46,10 +46,10 @@
                         <c:if test="${ord.orderStatus == 7}">交易结束</c:if>
                     </span>
                     <c:if test="${ord.orderStatus == 1}">
-                        <button style="margin-left: 20px;" class="layui-btn layui-btn-warm" onclick="ording(${ord.orderNo})">支付</button>
+                        <button style="margin-left: 20px;" class="layui-btn layui-btn-warm" onclick="ording('${ord.orderNo}')">支付</button>
                     </c:if>
                     <c:if test="${ord.orderStatus == 2 || ord.orderStatus == 3}">
-                        <button style="margin-left: 20px;" class="layui-btn layui-btn-warm" onclick="get(${ord.orderNo},4)">签收</button>
+                        <button style="margin-left: 20px;" class="layui-btn layui-btn-warm" onclick="get('${ord.orderNo}','4')">签收</button>
                     </c:if>
                 </div>
                 <c:forEach items="${list1}" var="det">
@@ -71,13 +71,13 @@
                             </div>
                             <div class="hid">
                                 <c:if test="${ord.orderStatus == 1}">
-                                    <button class="layui-btn layui-btn-lg" onclick="get(${ord.orderNo},7)">关闭交易</button>
+                                    <button class="layui-btn layui-btn-lg" onclick="get('${ord.orderNo}','7')">关闭交易</button>
                                 </c:if>
                                 <c:if test="${ord.orderStatus == 2 || ord.orderStatus == 3 || ord.orderStatus == 4}">
-                                    <button class="layui-btn layui-btn-lg" onclick="get(${ord.orderNo},5)">申请退款</button>
+                                    <button class="layui-btn layui-btn-lg" onclick="get('${ord.orderNo}','5')">申请退款</button>
                                 </c:if>
                                 <c:if test="${ord.orderStatus == 5}">
-                                    <button class="layui-btn layui-btn-lg" onclick="get(${ord.orderNo},2)">取消退款</button>
+                                    <button class="layui-btn layui-btn-lg" onclick="get('${ord.orderNo}','${ord.preStatus}')">取消退款</button>
                                 </c:if>
                             </div>
                         </div>
@@ -94,12 +94,11 @@
             type:2,
             title:"支付",
             content:"geo?orderNo="+orderNo,
-            area: ['400px', '200px']
+            area: ['455px', '250px']
         })
     }
 
     function get(orderNo,orderStatus){
-        console.info(orderNo);
         var params = "orderNo="+orderNo+"&orderStatus="+orderStatus;
         //提交登录信息
         $.ajax({
@@ -114,6 +113,12 @@
                 }
             }
         });
+    }
+
+    function closeLayer() {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+        window.location.reload();
     }
 </script>
 </html>

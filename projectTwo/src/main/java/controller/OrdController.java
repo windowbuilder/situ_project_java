@@ -38,9 +38,9 @@ public class OrdController {
     //前台加载订单界面
     @RequestMapping("/qio")
     @ResponseBody
-    public ModelAndView queryIO(Integer uId){
+    public ModelAndView queryIO(Integer uId,Integer orderStatus){
         ModelAndView mv = new ModelAndView();
-        List<Order> list = ordService.queryIO(uId);
+        List<Order> list = ordService.queryIO(uId,orderStatus);
         List<Detail> list1 = ordService.queryACD(new Detail());
         mv.addObject("list",list);
         mv.addObject("list1",list1);

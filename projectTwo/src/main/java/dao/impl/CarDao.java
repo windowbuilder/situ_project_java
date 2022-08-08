@@ -41,4 +41,9 @@ public class CarDao implements ICarDao {
     public int updateIC(Car car) {
         return sqlSession.update(URL + ".updateIC",car);
     }
+
+    @Override
+    public int deleteI(Car car) {
+        return sqlSession.delete(URL + ".deleteI",car);
+    }
 }

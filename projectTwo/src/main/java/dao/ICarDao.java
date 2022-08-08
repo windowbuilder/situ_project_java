@@ -30,4 +30,6 @@ public interface ICarDao {
     public int addIC(Car car);
 
     public int updateIC(Car car);
+
+    public int deleteI(Car car);
 }

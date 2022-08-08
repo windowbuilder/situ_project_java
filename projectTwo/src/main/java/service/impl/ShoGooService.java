@@ -60,6 +60,60 @@ public class ShoGooService implements IShoGooService {
         return returnMap;
     }
 
+    //生成订单、删除购物车记录
+    @Override
+    @Transactional
+    public Map<String, Object> buyDeleteCar(Integer id, Integer gid, Integer buyCount) {
+        Map<String, Object> returnMap = new HashMap<>();
+        //1.扣减库存
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id",gid);
+        map.put("buyCount",buyCount);
+        int count = gooDao.subCount(map);
+        if (count < 1){
+            returnMap.put("code",0);
+            return returnMap;
+        }
+        //2.生成订单
+        //2-1查询购物车记录
+        Car car = new Car();
+        car.setId(id);
+        map.put("car",car);
+        Car car1 = carDao.queryIC(map).get(0);
+        //2-2生成订单号
+        User u = useDao.queryI(new User(car1.getUId())).get(0);
+        AopUtil aopUtil = new AopUtil();
+        String orderNo = aopUtil.getOrderNo(u);
+        //2-3.插入订单记录
+        Order order = new Order();
+        order.setOrderNo(orderNo);
+        order.setUId(car1.getUId());
+        Goods goods = gooDao.queryRI(map).get(0);
+        BigDecimal orderMoney = goods.getgPrice().multiply(new BigDecimal(buyCount));
+        order.setOrderMoney(orderMoney);
+        order.setOrderStatus(1);
+        ordDao.addo(order);
+        //2-4.在订单详情中插入记录
+        Detail detail = new Detail();
+        detail.setOrderNo(orderNo);
+        detail.setGId(gid);
+        detail.setBuyCount(buyCount);
+        ordDao.addD(detail);
+        //3.删除购物车记录
+        carDao.deleteI(car);
+        returnMap.put("code",1);
+        returnMap.put("orderNo",orderNo);
+        return returnMap;
+    }
+
+    @Override
+    public int deleteCar(Integer id) {
+        Car car = new Car();
+        car.setId(id);
+        int i = carDao.deleteI(car);
+        return i;
+    }
+
     //扣减库存，生成订单
     @Override
     @Transactional
@@ -147,5 +201,6 @@ public class ShoGooService implements IShoGooService {
         }
         return returnMap;
     }
+
 
 }

@@ -67,4 +67,27 @@ public class ShopGoodsController {
         String code = String.valueOf((Integer)map.get("code"));
         return code;
     }
+
+    //购买
+    @RequestMapping("/gbu")
+    @ResponseBody
+    public String getbuy(Integer id, Integer buyCount, HttpServletRequest req){
+        HttpSession session = req.getSession();
+        User m = (User) session.getAttribute("u");
+        Map<String, Object> map = shoGooService.buyDeleteCar(m.getId(), id, buyCount);
+        String orderNo = "0";
+        String on = (String)map.get("orderNo");
+        if(on != null && on != ""){
+            orderNo = on;
+        }
+        return orderNo;
+    }
+
+    //删除
+    @RequestMapping("/dec")
+    @ResponseBody
+    public String deleteCar(Integer id){
+        int i = shoGooService.deleteCar(id);
+        return String.valueOf(i);
+    }
 }

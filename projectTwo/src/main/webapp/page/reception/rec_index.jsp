@@ -41,12 +41,13 @@
         <li class="layui-nav-item">
             <a href="${pageContext.request.contextPath}/ord/qio?uId=${uid}" target="t1" class="child" onclick="ord(this)">我的订单</a>
             <dl class="layui-nav-child">
-                <dd><a href="">待付款</a></dd>
-                <dd><a href="">待发货</a></dd>
-                <dd><a href="">已发货</a></dd>
-                <dd><a href="">已签收</a></dd>
-                <dd><a href="">退款中</a></dd>/
-                <dd><a href="">交易结束</a></dd>
+                <dd><a href="${pageContext.request.contextPath}/ord/qio?uId=${uid}&orderStatus=1" target="t1">待付款</a></dd>
+                <dd><a href="${pageContext.request.contextPath}/ord/qio?uId=${uid}&orderStatus=2" target="t1">待发货</a></dd>
+                <dd><a href="${pageContext.request.contextPath}/ord/qio?uId=${uid}&orderStatus=3" target="t1">已发货</a></dd>
+                <dd><a href="${pageContext.request.contextPath}/ord/qio?uId=${uid}&orderStatus=4" target="t1">已签收</a></dd>
+                <dd><a href="${pageContext.request.contextPath}/ord/qio?uId=${uid}&orderStatus=5" target="t1">退款中</a></dd>
+                <dd><a href="${pageContext.request.contextPath}/ord/qio?uId=${uid}&orderStatus=6" target="t1">已退款</a></dd>
+                <dd><a href="${pageContext.request.contextPath}/ord/qio?uId=${uid}&orderStatus=7" target="t1">交易结束</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item layui-hide-xs">
