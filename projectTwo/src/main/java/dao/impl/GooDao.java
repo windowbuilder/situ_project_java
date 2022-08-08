@@ -36,6 +36,16 @@ public class GooDao implements IGooDao {
     }
 
     @Override
+    public List<Goods> queryRI(Map<String, Object> map) {
+        return sqlSession.selectList(URL + ".queryRI",map);
+    }
+
+    @Override
+    public int queryRC(Map<String,Object> map) {
+        return sqlSession.selectList(URL +".queryRC",map).size();
+    }
+
+    @Override
     public List<GoodsSort> queryClassG(GoodsSort goodsSort) {
         return sqlSession.selectList(URL + ".queryClassG",goodsSort);
     }
@@ -53,6 +63,11 @@ public class GooDao implements IGooDao {
     @Override
     public int updateG(Goods goods) {
         return sqlSession.update(URL + ".updateG",goods);
+    }
+
+    @Override
+    public int subCount(Map<String, Object> map) {
+        return sqlSession.update(URL + ".subCount",map);
     }
 
     @Override

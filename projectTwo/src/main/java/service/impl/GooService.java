@@ -25,7 +25,7 @@ public class GooService implements IGooService {
     @Autowired
     private IGooDao gooDao;
 
-    //界面数据查询
+    //后台界面数据查询
     @Override
     public Map<String,Object> queryG(Goods goods, Integer pageNo) {
         if (pageNo == null || pageNo < 1){
@@ -51,6 +51,49 @@ public class GooService implements IGooService {
         resMap.put("pageNo",pageNo);
         resMap.put("totalPage",totalPage);
         return resMap;
+    }
+
+    //加载前台商品列表界面
+    @Override
+    public Map<String, Object> queryRI(Integer sid, Integer pageNo,String gName) {
+        if (pageNo == null || pageNo < 1){
+            pageNo = 1;
+        }
+        int rowCount = 15;
+        Map<String, Object> map = new HashMap<>();
+        if (gName != null && gName != ""){
+            gName = "%"+gName+"%";
+        }
+        map.put("gName",gName);
+        map.put("sid",sid);
+        map.put("gStatus",1);
+        int totalCount = gooDao.queryRC(map);
+        int totalPage = totalCount / rowCount;
+        if (totalCount % rowCount != 0 || totalPage < 1){
+            totalPage ++;
+        }
+        if (pageNo > totalPage){
+            pageNo = totalPage;
+        }
+        int limitFirst = (pageNo - 1) * rowCount;
+        map.put("limitFirst",limitFirst);
+        map.put("rowCount",rowCount);
+        List<Goods> list = gooDao.queryRI(map);
+        Map<String, Object> resMap = new HashMap<>();
+        resMap.put("list",list);
+        resMap.put("pageNo",pageNo);
+        resMap.put("totalPage",totalPage);
+        return resMap;
+    }
+
+    //前台单件商品详情查询
+    @Override
+    public Goods queryRO(Integer id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id",id);
+        map.put("gStatus",1);
+        Goods goods = gooDao.queryRI(map).get(0);
+        return goods;
     }
 
     @Override

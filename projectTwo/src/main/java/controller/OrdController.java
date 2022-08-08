@@ -25,6 +25,29 @@ public class OrdController {
     @Autowired
     private IOrdService ordService;
 
+    //前台加载订单界面
+    @RequestMapping("/geo")
+    @ResponseBody
+    public ModelAndView getOrd(String orderNo){
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("orderNo",orderNo);
+        mv.setViewName("/reception/get_ord");
+        return mv;
+    }
+
+    //前台加载订单界面
+    @RequestMapping("/qio")
+    @ResponseBody
+    public ModelAndView queryIO(Integer uId){
+        ModelAndView mv = new ModelAndView();
+        List<Order> list = ordService.queryIO(uId);
+        List<Detail> list1 = ordService.queryACD(new Detail());
+        mv.addObject("list",list);
+        mv.addObject("list1",list1);
+        mv.setViewName("/reception/ordering");
+        return mv;
+    }
+
     //加载订单列表界面
     @RequestMapping("/quo")
     @ResponseBody
@@ -86,6 +109,17 @@ public class OrdController {
         Order order = new Order();
         order.setOrderStatus(6);
         int set = ordService.updateO(arr,order);
+        return String.valueOf(set);
+    }
+
+    //退款功能
+    @RequestMapping("/up")
+    @ResponseBody
+    public String update(String orderNo,Integer orderStatus){
+        Order order = new Order();
+        order.setOrderStatus(orderStatus);
+        order.setOrderNo(orderNo);
+        int set = ordService.updateAO(order);
         return String.valueOf(set);
     }
 }

@@ -13,6 +13,30 @@
         </where>
     </select>
 
+    <!--查询前台数据的数量-->
+    <select id="queryRC" parameterType="java.util.Map" resultType="goods">
+        select * from v_goods
+        <where>
+            <if test="gName != null and gName != '' "> and g_name like #{gName}</if>
+            <if test="sid != null"> and so_id = #{sid} or s_id = #{sid}</if>
+            <if test="gStatus != null"> and g_status = #{gStatus}</if>
+        </where>
+    </select>
+
+    <!--查询前台数据-->
+    <select id="queryRI" parameterType="java.util.Map" resultType="goods">
+        select * from v_goods
+        <where>
+            <if test="gName != null and gName != '' "> and g_name like #{gName}</if>
+            <if test="sid != null"> and so_id = #{sid} or s_id = #{sid}</if>
+            <if test="gStatus != null"> and g_status = #{gStatus}</if>
+            <if test="id != null"> and id = #{id}</if>
+        </where>
+        <if test="limitFirst != null">
+            limit #{limitFirst},#{rowCount}
+        </if>
+    </select>
+
     <!--查询所有分类-->
     <select id="queryClassG" parameterType="goodsSort" resultType="goodsSort">
         select * from goods_sort
@@ -81,6 +105,12 @@
                 and id = #{id}
             </if>
         </where>
+    </update>
+
+    <!--扣减库存-->
+    <update id="subCount" parameterType="java.util.Map">
+        update goods_info set g_count = (g_count -#{buyCount})
+        where id = #{id} and g_count &gt; #{buyCount}
     </update>
 
     <update id="upsn" parameterType="goodsSort">

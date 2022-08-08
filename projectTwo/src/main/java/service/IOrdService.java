@@ -24,9 +24,15 @@ import java.util.Map;
 public interface IOrdService {
     public List<Detail> queryCD(Detail detail);
 
+    public List<Detail> queryACD(Detail detail);
+
+    public List<Order> queryIO(Integer uId);
+
     public Map<String,Object> queryO(Order order, Integer pageNo);
 
     public int addo(Order order);
 
     public int updateO(String[] arr,Order order);
+
+    public int updateAO(Order order);
 }

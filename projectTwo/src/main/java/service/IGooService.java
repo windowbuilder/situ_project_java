@@ -21,7 +21,12 @@ import java.util.Map;
  * @自定义内容：
  */
 public interface IGooService {
+    public Map<String,Object> queryRI(Integer sid, Integer pageNo,String gName);
+
+    public Goods queryRO(Integer id);
+
     public Map<String,Object> queryG(Goods goods, Integer pageNo);
+
 
     public Goods queryGo(Map<String,Object> map);
 

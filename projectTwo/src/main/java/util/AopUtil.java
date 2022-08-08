@@ -1,6 +1,10 @@
 package util;
 
+import model.User;
 import org.aspectj.lang.JoinPoint;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author feiyang
@@ -22,5 +26,15 @@ public class AopUtil {
         Class clz = jp.getTarget().getClass();
         String name = jp.getSignature().getName();
         System.out.println("aop----after-throwing..["+clz+"]..["+name+"].."+e.getMessage());
+    }
+
+    //生成订单号
+    public String getOrderNo(User m){
+        String phone = m.getUPhone();
+        String suffix = phone.substring(phone.length() - 4);
+        SimpleDateFormat sf = new SimpleDateFormat("yyyyMMddHHmmss");
+        String prefix = sf.format(new Date());
+        String orderNo = prefix + suffix;
+        return orderNo;
     }
 }

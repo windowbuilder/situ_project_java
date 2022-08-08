@@ -8,12 +8,13 @@
         <where>
             <if test="orderNo != null and orderNo != '' "> and order_no = #{orderNo}</if>
             <if test="orderStatus != null"> and order_status = #{orderStatus}</if>
+            <if test="uId != null"> and u_id = #{uId}</if>
         </where>
     </select>
 
     <!--查询商品详情-->
     <select id="queryCD" parameterType="detail" resultType="detail">
-        select * from order_goods
+        select * from v_detail
         <where>
             <if test="orderNo != null and orderNo != '' "> and order_no = #{orderNo}</if>
         </where>
@@ -25,20 +26,39 @@
         <where>
             <if test="order.orderNo != null and order.orderNo != '' "> and order_no = #{order.orderNo}</if>
             <if test="order.orderStatus != null"> and order_status = #{order.orderStatus}</if>
+            <if test="order.uId != null"> and u_id = #{order.uId}</if>
         </where>
         <if test="limitFirst != null">
             limit #{limitFirst},#{rowCount}
         </if>
     </select>
 
-    <insert id="addO" parameterType="order">
+    <insert id="addD" parameterType="detail">
+        insert into order_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null and orderNo != '' "> order_no,</if>
+            <if test="gId != null"> g_id,</if>
+            <if test="buyCount != null"> buy_count,</if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null and orderNo != '' "> #{orderNo},</if>
+            <if test="gId != null"> #{gId},</if>
+            <if test="buyCount != null"> #{buyCount},</if>
+        </trim>
+    </insert>
+
+    <insert id="addo" parameterType="order">
         insert into order_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="orderNo != null and orderNo != '' "> order_no,</if>
+            <if test="uId != null"> u_id,</if>
+            <if test="orderMoney != null"> order_money,</if>
             <if test="orderStatus != null"> order_status,</if>
         </trim>
         <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
             <if test="orderNo != null and orderNo != '' "> #{orderNo},</if>
+            <if test="uId != null"> #{uId},</if>
+            <if test="orderMoney != null"> #{orderMoney},</if>
             <if test="orderStatus != null"> #{orderStatus},</if>
         </trim>
     </insert>

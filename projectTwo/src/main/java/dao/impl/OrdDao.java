@@ -39,6 +39,11 @@ public class OrdDao implements IOrdDao {
     }
 
     @Override
+    public int addD(Detail detail) {
+        return sqlSession.insert(URL + ".addD",detail);
+    }
+
+    @Override
     public int addo(Order order) {
         return sqlSession.insert(URL + ".addo",order);
     }

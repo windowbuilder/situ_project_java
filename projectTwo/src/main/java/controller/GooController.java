@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import model.Goods;
 import model.GoodsSort;
+import model.User;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import service.IGooService;
+import service.IShoGooService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,7 +39,7 @@ public class GooController {
     private IGooService gooService;
     private final String PICTURE = "http://127.0.0.1:8887/";
 
-    //加载分类列表界面
+    //加载后台分类列表界面
     @RequestMapping("/num")
     @ResponseBody
     public ModelAndView num(Integer pageNo){
@@ -45,6 +49,43 @@ public class GooController {
         List<GoodsSort> list = gooService.queryClassG(goodsSort);
         mv.addObject("list",list);
         mv.setViewName("/manager/shop_num");
+        return mv;
+    }
+
+    //加载前台商品分类界面
+    @RequestMapping("/cla")
+    @ResponseBody
+    public ModelAndView query(String gName){
+        ModelAndView mv = new ModelAndView();
+        GoodsSort goodsSort = new GoodsSort();
+        goodsSort.setParentId(-1);
+        List<GoodsSort> list = gooService.queryClassG(goodsSort);
+        mv.addObject("list",list);
+        mv.addObject("gName",gName);
+        mv.setViewName("/reception/class");
+        return mv;
+    }
+
+    //初始化，查询前台商品列表界面
+    @RequestMapping("/ques")
+    @ResponseBody
+    public ModelAndView queryS(Integer sid,Integer pageNo,String gName){
+        ModelAndView mv = new ModelAndView();
+        Map<String, Object> map = gooService.queryRI(sid, pageNo, gName);
+        mv.addObject("map",map);
+        mv.addObject("sid",sid);
+        mv.setViewName("/reception/shop");
+        return mv;
+    }
+
+    //初始化，查询前台商品详情界面
+    @RequestMapping("/quo")
+    @ResponseBody
+    public ModelAndView queryS(Integer id){
+        ModelAndView mv = new ModelAndView();
+        Goods goods = gooService.queryRO(id);
+        mv.addObject("goods",goods);
+        mv.setViewName("/reception/detail");
         return mv;
     }
 
@@ -159,7 +200,7 @@ public class GooController {
             JSONObject obj = new JSONObject();
             obj.put("id",goodsSort.getId());
             obj.put("sName",goodsSort.getsName());
-            System.out.println(soName);
+            obj.put("parentId",goodsSort.getParentId());
             obj.put("soName",soName);
             arr.add(obj);
         }

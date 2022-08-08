@@ -25,6 +25,10 @@ public interface IGooDao {
 
     public int queryCountG(Goods goods);
 
+    public List<Goods> queryRI(Map<String,Object> map);
+
+    public int queryRC(Map<String,Object> map);
+
     public List<GoodsSort> queryClassG(GoodsSort goodsSort);
 
     public int addG(Goods goods);
@@ -32,6 +36,8 @@ public interface IGooDao {
     public int addp(GoodsSort goodsSort);
 
     public int updateG(Goods goods);
+
+    public int subCount(Map<String,Object> map);
 
     public int upsn(GoodsSort goodsSort);
 

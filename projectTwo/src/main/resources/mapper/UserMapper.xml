@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.IUseDao"><!--namespace属性关联dao层的接口-->
+
+    <!--登录查询-->
+    <select id="queryLoginUser" parameterType="user" resultType="user">
+        select * from user_info
+        <where>
+            <if test="uName != null and uName != '' "> and u_name = #{uName}</if>
+            <if test="uPhone != null and uPhone != '' "> and u_phone = #{uPhone}</if>
+            <if test="uPass != null and uPass != '' "> and u_pass = #{uPass}</if>
+            <if test="id != null"> and id = #{id}</if>
+        </where>
+    </select>
+
+    <!--注册-->
+    <insert id="addUser" parameterType="user">
+        insert into user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uName != null and uName != '' "> u_name</if>
+            <if test="uPhone != null and uPhone != '' "> u_phone</if>
+            <if test="uPass != null and uPass != '' "> u_pass</if>
+            <if test="uMoney != null and uMoney != '' "> u_money</if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="uName != null and uName != '' "> u_name</if>
+            <if test="uPhone != null and uPhone != '' "> u_phone</if>
+            <if test="uPass != null and uPass != '' "> u_pass</if>
+            <if test="uMoney != null and uMoney != '' "> u_money</if>
+        </trim>
+    </insert>
+
+    <!--忘记密码、个人信息修改-->
+    <update id="updateUser" parameterType="user">
+        update user_info
+        <set>
+            <if test="uName != null and uName != '' "> u_name = #{uName}</if>
+            <if test="uPhone != null and uPhone != '' "> u_phone = #{uPhone}</if>
+            <if test="uPass != null and uPass != '' "> u_pass = #{uPass}</if>
+        </set>
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+        </where>
+    </update>
+
+    <!--充值、支付-->
+    <update id="upMoney" parameterType="user">
+        update user_info set u_money = (u_money -#{uMoney})
+        <where>
+            <if test="uMoney != null and uMoney &gt; 0"> id = #{id} and u_money &gt; #{uMoney}</if>
+            <if test="uMoney != null and uMoney &lt; 0"> id = #{id}</if>
+        </where>
+    </update>
+
+</mapper>

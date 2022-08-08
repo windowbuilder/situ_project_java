@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: 飞扬
-  Date: 2022/7/22
-  Time: 11:12
+  Date: 2022/8/2
+  Time: 8:55
   To change this template use File | Settings | File Templates.
 --%>
 <%@page isELIgnored="false" %>
@@ -13,7 +13,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>商城管理系统登录界面</title>
+    <title>登录界面</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/layui/css/layui.css" />
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/login.css" />
     <style>
@@ -30,7 +30,8 @@
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min-2.1.1.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/layui/layui.js"></script>
 </head>
-<body style="width:500px;height:855px;margin:40px auto;background:-webkit-radial-gradient(#AEBAF8,#C973FF,#AEBAF8);">
+<body style="width:500px;height:855px;margin:40px auto;
+		background:-webkit-radial-gradient(#AEBAF8,#C973FF,#AEBAF8);">
 <div class="layui-container">
     <form class="layui-form" action="">
         <div class="layui-form-mid layui-word-aux">
@@ -39,13 +40,13 @@
         <div class="layui-form-item">
             <label class="layui-form-label">用户名</label>
             <div class="layui-input-block">
-                <input type="text" id="mName" name="mName" placeholder="请输入用户名" autocomplete="off" class="layui-input" />
+                <input type="text" id="uName" name="uName" placeholder="请输入用户名或者手机号" autocomplete="off" class="layui-input" />
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">密 &nbsp; &nbsp;码</label>
             <div class="layui-input-block">
-                <input type="password" id="mPass" name="mPass" placeholder="请输入密码" autocomplete="off" class="layui-input" />
+                <input type="password" id="uPass" name="uPass" placeholder="请输入密码" autocomplete="off" class="layui-input" />
             </div>
             <img id="img" src="${pageContext.request.contextPath}/img/openeye.png">
         </div>
@@ -54,19 +55,22 @@
         <div class="layui-input-block">
             <button class="layui-btn" onclick="login()">登陆</button>
         </div>
+        <div style="height: 20px;"></div>
+        <a href="forget.html" class="font-set" style="float: left;margin-left: 50px;">忘记密码?</a>
+        <a href="regist.html" class="font-set" style="float: right;">立即注册</a>
     </div>
 </div>
 </body>
 <script>
     //登录参数验证
     function login(){
-        var mName = $("#mName").val();
-        if(mName == ''){
-            alert("请输入用户名");
+        var uName = $("#uName").val();
+        if(uName == ''){
+            alert("请输入用户名或者手机号");
             return;
         }
-        var mPass = $("#mPass").val();
-        if(mPass == ''){
+        var uPass = $("#uPass").val();
+        if(uPass == ''){
             alert("请输入密码");
             return;
         }
@@ -80,7 +84,7 @@
                 if(str != '0'){
                     alert("登录成功");
                     //跳主页
-                    window.location.href="ind?id="+str;
+                    window.location.href="ind";
                 } else {
                     alert("登陆失败")
                 }
@@ -92,15 +96,14 @@
     $(document).ready(function(){
         $("#img").click(function(){
             var $ = layui.$;
-            if ($("#mPass").attr("type") == "password") {
-                $("#mPass").attr("type","text");
+            if ($("#uPass").attr("type") == "password") {
+                $("#uPass").attr("type","text");
                 $("#img").attr("src","${pageContext.request.contextPath}/img/closeeye.png");
             } else {
-                $("#mPass").attr("type","password");
+                $("#uPass").attr("type","password");
                 $("#img").attr("src","${pageContext.request.contextPath}/img/openeye.png");
             }
         });
     });
 </script>
 </html>
-

@@ -24,6 +24,10 @@ public class Goods {
     public Goods() {
     }
 
+    public Goods(Integer id) {
+        this.id = id;
+    }
+
     public Goods(Integer id, String gName, String imgUrl, BigDecimal gPrice, Integer gCount, Integer gStatus, Integer soId, String soName, Integer sId, String sName) {
         this.id = id;
         this.gName = gName;

@@ -32,12 +32,12 @@
     <insert id="add" parameterType="manager">
         insert into manager_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="mName != null">m_name,</if>
-            <if test="mPass != null">m_pass,</if>
+            <if test="mName != null and mName != '' ">m_name,</if>
+            <if test="mPass != null and mPass != '' ">m_pass,</if>
         </trim>
         <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
-            <if test="mName != null">#{mName},</if>
-            <if test="mPass != null">#{mPass},</if>
+            <if test="mName != null and mName != '' ">#{mName},</if>
+            <if test="mPass != null and mPass != '' ">#{mPass},</if>
         </trim>
     </insert>
 

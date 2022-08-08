@@ -134,11 +134,11 @@
             type:"POST",//请求提交的方式
             success:function(str){
                 if (str == "0"){
-                    alert("下架失败");
+                    alert("上架失败");
                 }else if (str == "-1"){
                     alert("您没有框选商品，请先框选商品");
                 }else {
-                    alert("下架成功");
+                    alert("上架成功");
                     window.location.href="qud"
                 }
             }

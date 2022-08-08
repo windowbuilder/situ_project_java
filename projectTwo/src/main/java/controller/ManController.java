@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import service.IManService;
-import service.IOrdService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,8 +26,6 @@ import java.util.*;
 public class ManController {
     @Autowired
     private IManService manService;
-
-
 
     @RequestMapping("/loginPage")
     public String loginPage(){

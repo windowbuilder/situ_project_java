@@ -29,6 +29,8 @@ public interface IOrdDao {
 
     public int queryCO(Order order);
 
+    public int addD(Detail detail);
+
     public int addo(Order order);
 
     public int updateO(Order order);

@@ -36,6 +36,22 @@ public class OrdService implements IOrdService {
     }
 
     @Override
+    public List<Detail> queryACD(Detail detail) {
+        List<Detail> list = ordDao.queryCD(detail);
+        return list;
+    }
+
+    @Override
+    public List<Order> queryIO(Integer uId) {
+        Map<String, Object> map = new HashMap<>();
+        Order order = new Order();
+        order.setUId(uId);
+        map.put("order",order);
+        List<Order> list = ordDao.queryO(map);
+        return list;
+    }
+
+    @Override
     public Map<String, Object> queryO(Order order, Integer pageNo) {
         if (pageNo == null || pageNo < 1){
             pageNo = 1;
@@ -64,7 +80,8 @@ public class OrdService implements IOrdService {
 
     @Override
     public int addo(Order order) {
-        return 0;
+        int addo = ordDao.addo(order);
+        return addo;
     }
 
     @Override
@@ -85,5 +102,11 @@ public class OrdService implements IOrdService {
         }else {
             return -1;
         }
+    }
+
+    @Override
+    public int updateAO(Order order) {
+        int updateG = ordDao.updateO(order);
+        return updateG;
     }
 }

@@ -27,19 +27,22 @@
 <div style="margin-left: 70px;margin-top: 20px;">
     <form class="layui-form">
         <input type="hidden" value="${goods.id}" name="id">
+        <input type="hidden" name="imgUrl" id="imgUrl">
         <div class="layui-form-item">
             <div class="layui-input-inline">
                 <input type="text" name="gName" value="${goods.gName}" disabled="disabled" placeholder="商品名称"
                        autocomplete="off" class="layui-input">
             </div>
-            <%--<div class="layui-input-inline" style="width: 100px;">
-                <button class="layui-btn layui-btn-radius" id="test1">上传图片</button>
+            <div class="layui-input-inline" style="width: 120px">
+                <button type="button" class="layui-btn" id="imgUpload">
+                    <i class="layui-icon">&#xe67c;</i>上传新图片
+                </button>
             </div>
             <div class="layui-input-inline layui-upload-list" style="width: 70px;">
                 <p id="demoText">
-                    <span>未上传图片</span>
+                    <span>未上传</span>
                 </p>
-            </div>--%>
+            </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-input-inline">
@@ -60,6 +63,37 @@
 </div>
 </body>
 <script>
+    //普通图片上传
+    layui.use(['layer','upload'], function(){
+        var layer = layui.layer;
+        var upload = layui.upload;
+        upload.render({
+            elem: '#imgUpload' //绑定元素
+            ,url: 'upload' //上传接口
+            ,accept: 'images' //指定允许上传时校验的文件类型，可选值有：images（图片）、file（所有文件）、video（视频）、audio（音频）
+            ,acceptMime: 'image/*',//规定打开文件选择框时，筛选出的文件类型，值为用逗号隔开的 MIME 类型列表
+            done: function(res){
+                console.info(res)
+                //如果上传失败
+                if(res.code != 1){
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #4cae4c;">上传成功</span>');
+                var imgUrl = $("#imgUrl");
+                imgUrl.attr("value",res.imgUrl);
+                console.info(res.imgUrl);
+            },
+            error: function(){
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span>');
+            }
+        });
+    });
+
+    //更新
     function upd(){
         var params = $("form").serialize();
         $.ajax({
@@ -77,6 +111,7 @@
             }
         });
     }
+
     function closeLayer() {
         var index = parent.layer.getFrameIndex(window.name);
         parent.layer.close(index);

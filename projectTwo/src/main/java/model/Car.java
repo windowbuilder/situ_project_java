@@ -4,33 +4,40 @@ import java.math.BigDecimal;
 
 /**
  * @author feiyang
- * @create 2022-07-25 16:45
+ * @create 2022-08-04 10:20
  * @Description:
- * @FileName: Detail
+ * @FileName: Car
  * @History:
  */
-public class Detail {
+public class Car {
     private Integer id;
-    private String orderNo;
+    private Integer uId;
     private Integer gId;
+    private Integer buyCount;
     private String gName;
     private String imgUrl;
     private BigDecimal gPrice;
-    private Integer buyCount;
     private BigDecimal totalMoney;
+    private Integer cStatus;//0-未操作，1购买，2删除
 
-    public Detail() {
+    public Car() {
     }
 
-    public Detail(Integer id, String orderNo, Integer gId, String gName, String imgUrl, BigDecimal gPrice, Integer buyCount, BigDecimal totalMoney) {
-        this.id = id;
-        this.orderNo = orderNo;
+    public Car(Integer uId, Integer gId) {
+        this.uId = uId;
         this.gId = gId;
+    }
+
+    public Car(Integer id, Integer uId, Integer gId, Integer buyCount, String gName, String imgUrl, BigDecimal gPrice, BigDecimal totalMoney, Integer cStatus) {
+        this.id = id;
+        this.uId = uId;
+        this.gId = gId;
+        this.buyCount = buyCount;
         this.gName = gName;
         this.imgUrl = imgUrl;
         this.gPrice = gPrice;
-        this.buyCount = buyCount;
         this.totalMoney = totalMoney;
+        this.cStatus = cStatus;
     }
 
     /**
@@ -51,25 +58,25 @@ public class Detail {
 
     /**
      * 获取
-     * @return orderNo
+     * @return uId
      */
-    public String getOrderNo() {
-        return orderNo;
+    public Integer getUId() {
+        return uId;
     }
 
     /**
      * 设置
-     * @param orderNo
+     * @param uId
      */
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
+    public void setUId(Integer uId) {
+        this.uId = uId;
     }
 
     /**
      * 获取
      * @return gId
      */
-    public Integer getgId() {
+    public Integer getGId() {
         return gId;
     }
 
@@ -79,6 +86,22 @@ public class Detail {
      */
     public void setGId(Integer gId) {
         this.gId = gId;
+    }
+
+    /**
+     * 获取
+     * @return buyCount
+     */
+    public Integer getBuyCount() {
+        return buyCount;
+    }
+
+    /**
+     * 设置
+     * @param buyCount
+     */
+    public void setBuyCount(Integer buyCount) {
+        this.buyCount = buyCount;
     }
 
     /**
@@ -117,7 +140,7 @@ public class Detail {
      * 获取
      * @return gPrice
      */
-    public BigDecimal getgPrice() {
+    public BigDecimal getGPrice() {
         return gPrice;
     }
 
@@ -127,22 +150,6 @@ public class Detail {
      */
     public void setGPrice(BigDecimal gPrice) {
         this.gPrice = gPrice;
-    }
-
-    /**
-     * 获取
-     * @return buyCount
-     */
-    public Integer getBuyCount() {
-        return buyCount;
-    }
-
-    /**
-     * 设置
-     * @param buyCount
-     */
-    public void setBuyCount(Integer buyCount) {
-        this.buyCount = buyCount;
     }
 
     /**
@@ -161,7 +168,23 @@ public class Detail {
         this.totalMoney = totalMoney;
     }
 
+    /**
+     * 获取
+     * @return cStatus
+     */
+    public Integer getCStatus() {
+        return cStatus;
+    }
+
+    /**
+     * 设置
+     * @param cStatus
+     */
+    public void setCStatus(Integer cStatus) {
+        this.cStatus = cStatus;
+    }
+
     public String toString() {
-        return "Detail{id = " + id + ", orderNo = " + orderNo + ", gId = " + gId + ", gName = " + gName + ", imgUrl = " + imgUrl + ", gPrice = " + gPrice + ", buyCount = " + buyCount + ", totalMoney = " + totalMoney + "}";
+        return "Car{id = " + id + ", uId = " + uId + ", gId = " + gId + ", buyCount = " + buyCount + ", gName = " + gName + ", imgUrl = " + imgUrl + ", gPrice = " + gPrice + ", totalMoney = " + totalMoney + ", cStatus = " + cStatus + "}";
     }
 }

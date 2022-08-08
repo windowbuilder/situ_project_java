@@ -107,10 +107,6 @@
             ,acceptMime: 'image/*',//规定打开文件选择框时，筛选出的文件类型，值为用逗号隔开的 MIME 类型列表
             done: function(res){
                 console.info(res)
-                //如果上传失败
-                if(res.code != 1){
-                    return layer.msg('上传失败');
-                }
                 //上传成功
                 var demoText = $('#demoText');
                 demoText.html('<span style="color: #4cae4c;">上传成功</span>');
