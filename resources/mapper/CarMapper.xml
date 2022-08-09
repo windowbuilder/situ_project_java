@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.ICarDao"><!--namespace属性关联dao层的接口-->
+
+    <!--查询得到的数据的数量-->
+    <select id="queryCC" parameterType="car" resultType="car">
+        select * from v_car
+        <where>
+            <if test="uId != null"> and u_id = #{uId}</if>
+            <if test="gId != null"> and g_id = #{gId}</if>
+            <if test="cStatus != null"> and c_status = #{cStatus}</if>
+        </where>
+    </select>
+
+    <!--查询该页的数据-->
+    <select id="queryIC" parameterType="java.util.Map" resultType="car">
+        select * from v_car
+        <where>
+            <if test="car.id != null"> and id = #{car.id}</if>
+            <if test="car.uId != null"> and u_id = #{car.uId}</if>
+            <if test="car.gId != null"> and g_id = #{car.gId}</if>
+            <if test="car.cStatus != null"> and c_status = #{car.cStatus}</if>
+        </where>
+        <if test="limitFirst != null">
+            limit #{limitFirst},#{rowCount}
+        </if>
+    </select>
+
+    <insert id="addIC" parameterType="car">
+        insert into cart_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uId != null"> u_id,</if>
+            <if test="gId != null"> g_id,</if>
+            <if test="buyCount != null"> buy_count,</if>
+            <if test="cStatus != null"> c_status,</if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="uId != null"> #{uId},</if>
+            <if test="gId != null"> #{gId},</if>
+            <if test="buyCount != null"> #{buyCount},</if>
+            <if test="cStatus != null"> #{cStatus},</if>
+        </trim>
+    </insert>
+
+    <update id="updateIC" parameterType="car">
+        update cart_info
+        <set>
+            <if test="buyCount != null"> buy_count = (buy_count + #{buyCount})</if>
+            <if test="cStatus != null"> c_status = #{cStatus}</if>
+        </set>
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deleteI" parameterType="car">
+        delete from cart_info where id = #{id};
+    </delete>
+</mapper>

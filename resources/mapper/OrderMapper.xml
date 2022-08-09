@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.IOrdDao"><!--namespace属性关联dao层的接口-->
+
+    <!--查询得到的数据的数量-->
+    <select id="queryCO" parameterType="order" resultType="order">
+        select * from v_order
+        <where>
+            <if test="orderNo != null and orderNo != '' "> and order_no = #{orderNo}</if>
+            <if test="orderStatus != null"> and order_status = #{orderStatus}</if>
+            <if test="uId != null"> and u_id = #{uId}</if>
+        </where>
+    </select>
+
+    <!--查询商品详情-->
+    <select id="queryCD" parameterType="detail" resultType="detail">
+        select * from v_detail
+        <where>
+            <if test="orderNo != null and orderNo != '' "> and order_no = #{orderNo}</if>
+        </where>
+    </select>
+
+    <!--查询该页的数据-->
+    <select id="queryO" parameterType="java.util.Map" resultType="order">
+        select * from v_order
+        <where>
+            <if test="order.orderNo != null and order.orderNo != '' "> and order_no = #{order.orderNo}</if>
+            <if test="order.orderStatus != null"> and order_status = #{order.orderStatus}</if>
+            <if test="order.uId != null"> and u_id = #{order.uId}</if>
+        </where>
+        <if test="limitFirst != null">
+            limit #{limitFirst},#{rowCount}
+        </if>
+    </select>
+
+    <insert id="addD" parameterType="detail">
+        insert into order_goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null and orderNo != '' "> order_no,</if>
+            <if test="gId != null"> g_id,</if>
+            <if test="buyCount != null"> buy_count,</if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null and orderNo != '' "> #{orderNo},</if>
+            <if test="gId != null"> #{gId},</if>
+            <if test="buyCount != null"> #{buyCount},</if>
+        </trim>
+    </insert>
+
+    <insert id="addo" parameterType="order">
+        insert into order_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null and orderNo != '' "> order_no,</if>
+            <if test="uId != null"> u_id,</if>
+            <if test="orderMoney != null"> order_money,</if>
+            <if test="orderStatus != null"> order_status,</if>
+        </trim>
+        <trim prefix="VALUES(" suffix=")" suffixOverrides=",">
+            <if test="orderNo != null and orderNo != '' "> #{orderNo},</if>
+            <if test="uId != null"> #{uId},</if>
+            <if test="orderMoney != null"> #{orderMoney},</if>
+            <if test="orderStatus != null"> #{orderStatus},</if>
+        </trim>
+    </insert>
+
+    <update id="updateO" parameterType="order">
+        update order_info
+        <set>
+            <if test="orderStatus != null"> order_status = #{orderStatus},</if>
+            <if test="orderStatus != null and orderStatus == 5"> delete_time =NOW(),</if>
+            <if test="orderStatus != null and orderStatus == 5"> pre_status = order_status,</if>
+        </set>
+        <where>
+            <if test="orderNo != null and orderNo != '' ">
+                and order_no = #{orderNo}
+            </if>
+        </where>
+    </update>
+
+    <update id="jobForOrder" parameterType="order">
+        update order_info
+        <set>
+            <if test="orderStatus != null and orderStatus == 1"> order_status = 7,</if>
+            <if test="orderStatus != null and orderStatus == 5"> order_status = 6,</if>
+        </set>
+        <where>
+            <if test="orderStatus != null and orderStatus == 1">
+                 and order_status = 1 and create_time &lt; DATE_ADD(now(), INTERVAL -15 MINUTE)
+            </if>
+            <if test="orderStatus != null and orderStatus == 5">
+                 and order_status = 5 and create_time &lt; DATE_ADD(now(), INTERVAL -3 day)
+            </if>
+        </where>
+    </update>
+</mapper>
